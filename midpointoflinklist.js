@@ -59,5 +59,26 @@ function findMidpoint(linklist, index=0) {
         return findMidpoint(midpoint, index)
     }
 }
+
+function findMid(linklist) {
+    let current = linklist;
+
+    if (!current.child) {
+        return current;
+    }
+
+    let mid = current, last = current;
+
+    while (mid) {
+        if (mid && (!last.child || !last.child.child)) {
+            break;
+        }
+
+        mid = mid.child;
+        last = last.child && last.child.child;
+    }
+
+    return mid;
+}
 console.log(findMidpoint(linklist))
 
