@@ -1,36 +1,34 @@
 let obj = {
-    name: "123",
-    company: "321",
-  };
-  
-  // const templatehtml = document.body.innerHTML;
-  function watch(object) {
-    // Todo
-    obj = new Proxy(object, {
-        get: function (target, propKey, receiver) {
-          console.log(`getting ${propKey}!`);
-          return Reflect.get(target, propKey, receiver);
-        },
+  name: "123",
+  company: "321",
+};
 
-        set: function (target, propKey, value, receiver) {
-          console.log(`setting ${propKey} ${value}!`);
-          target[propKey] = value;
+function watch(object) {
+  // Todo
+  obj = new Proxy(object, {
+    get: function (target, propKey, receiver) {
+      console.log(`getting ${propKey}!`);
+      return Reflect.get(target, propKey, receiver);
+    },
 
-          document.body.innerHTML = document.body.innerHTML.replace(
-            /(?<="{{(.+?)}}")>.*</g,
-            (...rest) => {
-              console.log("==>", rest);
-              return (rest[0] = `>${target[rest[1]]}<`);
-            }
-          );
-          return true;
-        },
-    });
-    
-  }
+    set: function (target, propKey, value, receiver) {
+      console.log(`setting ${propKey} ${value}!`);
+      target[propKey] = value;
 
-  watch(obj);
+      document.body.innerHTML = document.body.innerHTML.replace(
+        /(?<="{{(.+?)}}")>.*</g,
+        (...rest) => {
+          console.log("==>", rest);
+          return (rest[0] = `>${target[rest[1]]}<`);
+        }
+      );
+      return true;
+    },
+  });
+}
 
-  obj.company = "h";
+watch(obj);
 
-  setTimeout(() => (obj.name = "seven"), 1000);
+obj.company = "h";
+
+setTimeout(() => (obj.name = "seven"), 1000);
