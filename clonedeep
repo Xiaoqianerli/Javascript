@@ -1,0 +1,34 @@
+var obj = {
+    name: 'amy',
+    child: {
+        name: 'amy2'
+    },
+    luckyNumber: [1, 2, 3]
+}
+
+
+obj.__proto__ = {
+    name:11
+}
+
+function cloneDeep(obj) {
+    let newObj = obj instanceof Object ? {} : [];
+
+    for (const key in obj) {
+        console.log(key)
+        if (typeof obj[key] === Object) {
+            newObj[key] = cloneDeep(obj[key]);
+        } else {
+            newObj[key] = obj[key]
+        }
+    }
+
+    return newObj;
+}
+
+var newObj = cloneDeep(obj);
+newObj.name = 'cici';
+newObj.child.name = 'cici';
+
+console.log(newObj);
+console.log(obj);
